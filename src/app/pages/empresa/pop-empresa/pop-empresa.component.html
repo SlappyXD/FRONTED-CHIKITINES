@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>{{titulo}}</h2>
+<mat-dialog-content class="mat-typography">
+  <form class="example-form" [formGroup]="formGroup" (ngSubmit)="crearEmpresa()">
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Representante</mat-label>
+      <input matInput name="representante" formControlName="representante">
+      <mat-error *ngIf="formGroup.get('representante')?.hasError('required')">
+        El representante es requerido.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('representante')?.hasError('pattern')">
+        El representante solo puede contener letras.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Razón social</mat-label>
+      <input matInput name="razon" formControlName="razonSocial">
+      <mat-error *ngIf="formGroup.get('razonSocial')?.hasError('required')">
+        La razón social es requerida.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('razonSocial')?.hasError('pattern')">
+        La razón social solo puede contener letras.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>RUC</mat-label>
+      <input matInput name="ruc" formControlName="ruc" maxlength="11">
+      <mat-error *ngIf="formGroup.get('ruc')?.hasError('required')">
+        El RUC es requerido.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('ruc')?.hasError('pattern')">
+        El RUC solo puede contener números.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('ruc')?.hasError('minlength') || formGroup.get('ruc')?.hasError('maxlength')">
+        El RUC debe tener exactamente 11 caracteres.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="estado">
+        <mat-option [value]="0">Inactivo</mat-option>
+        <mat-option [value]="1">Activo</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="crearEmpresa()" cdkFocusInitial>{{nameB}}</button>
+</mat-dialog-actions>
+

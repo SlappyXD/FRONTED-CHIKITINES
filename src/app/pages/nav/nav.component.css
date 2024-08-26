@@ -1,0 +1,5 @@
+.nav-link.active {
+  background-color: #f0f0f0; /* Color de fondo para el ítem activo */
+  color: #000; /* Color del texto para el ítem activo */
+  border-radius: 4px; /* Opcional: para bordes redondeados en el ítem activo */
+}
