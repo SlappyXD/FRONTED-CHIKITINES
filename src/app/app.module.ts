@@ -7,9 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TablesComponent } from './pages/tables/tables.component';
-import { BillingComponent } from './pages/billing/billing.component';
-import { VirtualComponent } from './pages/virtual/virtual.component';
-import { RtlComponent } from './pages/rtl/rtl.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DashbordComponent } from './pages/dashbord/dashbord.component';
@@ -36,9 +33,6 @@ import { PopProductoComponent } from './pages/producto/pop-producto/pop-producto
     AppComponent,
     NavComponent,
     TablesComponent,
-    BillingComponent,
-    VirtualComponent,
-    RtlComponent,
     NotificationsComponent,
     ProfileComponent,
     DashbordComponent,

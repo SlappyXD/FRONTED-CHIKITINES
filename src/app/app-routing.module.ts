@@ -4,9 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TablesComponent } from './pages/tables/tables.component';
 import { HomeComponent } from './pages/home/home.component';
-import { BillingComponent } from './pages/billing/billing.component';
-import { RtlComponent } from './pages/rtl/rtl.component';
-import { VirtualComponent } from './pages/virtual/virtual.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SignComponent } from './pages/sign/sign.component';
@@ -25,9 +22,6 @@ const routes: Routes = [
   {path:'rol', component:RolComponent},
   {path:'usuario', component:UsuarioComponent},
   {path:'empleado', component:EmpleadoComponent},
-  {path: 'billing', component:BillingComponent},
-  {path: 'rtl', component:RtlComponent},
-  {path: 'virtual', component:VirtualComponent},
   {path: 'notifications', component:NotificationsComponent},
   {path: 'profile', component:ProfileComponent},
   {path: 'sign', component:SignComponent},
