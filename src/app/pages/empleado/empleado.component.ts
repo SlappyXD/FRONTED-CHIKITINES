@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { IEmpleado } from 'src/app/interfaces/generico.interface';
-import { EmpleadoService } from 'src/app/services/empleado.service';
+import { Vendedor } from 'src/app/interfaces/vendedor.interface';
+import { VendedorService } from 'src/app/services/vendedor.service';
 import { PopEmpleadoComponent } from './pop-empleado/pop-empleado.component';
 
 @Component({
@@ -9,60 +9,22 @@ import { PopEmpleadoComponent } from './pop-empleado/pop-empleado.component';
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css']
 })
-export class EmpleadoComponent {
+export class EmpleadoComponent implements OnInit{
 
-  listaEmpleado: Array<IEmpleado> = [];
+  listaEmpleado: Array<Vendedor> = [];
   title = 'Empleado';
 
   constructor(
-    private empleadoService: EmpleadoService,
+    private vendedorService: VendedorService,
     public dialog: MatDialog
   ) { }
-
-  addEmpleado() {
-    const dialogoEmpleado = this.dialog.open(PopEmpleadoComponent,{
-      width: '50%',
-      disableClose: true
-    });
-
-    dialogoEmpleado.beforeClosed().subscribe(result=>{
-      if(result.success){
-        alert("Se ha creado un empleado con id " + result.data.emplId);
-        //this.listaEmpresas.push(result.data);
-        this.listarAll();
-      }
-    })
-    }
-
-    updateEmpleado(empleado: IEmpleado) {
-      const dialogoEmpleado = this.dialog.open(PopEmpleadoComponent,{
-        width: '50%',
-        disableClose: true,
-        data: empleado
-      });
-
-      dialogoEmpleado.beforeClosed().subscribe(result => {
-        if (result && result.success) {
-          this.empleadoService.crearEmpleado(result.data).subscribe(
-            (empleado) => {
-              alert(`Se ha actualizado el empleado con id ${result.data.emplId}`);
-              this.listarAll(); // Asumiendo que tienes un método para listar todos los usuarios
-            },
-            (error) => {
-              alert('Error al guardar el empleado');
-              console.error(error);
-            }
-          );
-        }
-      }) ;
-      }
 
   ngOnInit(): void {
     this.listarAll();
   }
 
   listarAll() {
-    this.empleadoService.listarAll().subscribe(response => {
+    this.vendedorService.listAll().subscribe(response => {
       console.log(response);
       this.listaEmpleado = response;
     }, error => {
@@ -71,20 +33,52 @@ export class EmpleadoComponent {
     });
   }
 
-  eliminarEmpleado(empleado: IEmpleado) {
-    if (confirm(`¿Estás seguro de que deseas eliminar el empleado con id ${empleado.emplId}?`)) {
-      this.empleadoService.eliminarRol(empleado.emplId).subscribe(response => {
-        if (response === 'Eliminacion Correcta') {
-          alert(`El empleado con id ${empleado.emplId} ha sido eliminado.`);
-          this.listaEmpleado = this.listaEmpleado.filter(e => e.emplId !== empleado.emplId);
-        } else {
-          alert("No se pudo eliminar el empleado.");
+  eliminarEmpleado(vendedor: Vendedor) {
+    if (vendedor.idVendedor == null) {
+      alert('ID del vendedor no disponible.');
+      return;
+    }
+
+    if (confirm(`¿Estás seguro de que deseas eliminar el vendedor con id ${vendedor.idVendedor}?`)) {
+      this.vendedorService.deleteProduct(vendedor.idVendedor).subscribe(
+        () => {
+          // Elimina el producto de la lista local
+          this.listaEmpleado = this.listaEmpleado.filter(p => p.idVendedor !== vendedor.idVendedor);
+          alert('Vendedor eliminado con éxito.');
+        },
+        error => {
+          console.error('Error al eliminar el vendedor:', error);
+          alert('Error al eliminar el vendedor. Por favor, intente de nuevo.');
         }
-      }, error => {
-        console.error("Error al intentar eliminar el empleado:", error);
-        alert("Hubo un error al intentar eliminar el empleado.");
-      });
+      );
     }
   }
 
+  addEmpleado() {
+    const dialogoVendedor = this.dialog.open(PopEmpleadoComponent, {
+      width: '50%',
+      disableClose: true
+    });
+
+    dialogoVendedor.beforeClosed().subscribe(result => {
+      if (result.success) {
+        alert("Se ha creado el vendedor con id " + result.data.idVendedor);
+        this.listarAll();
+      }
+    });
+  } 
+
+  updateEmpleado(vendedor: Vendedor) {
+    const dialogoVendedor = this.dialog.open(PopEmpleadoComponent, {
+      width: '50%',
+      disableClose: true,
+      data: vendedor
+    });
+    dialogoVendedor.beforeClosed().subscribe(result => {
+      if (result.success) {
+        alert("Se ha actualizado el vendedor con id " + result.data.idVendedor);
+        this.listarAll();
+      }
+    });
+  }
 }
